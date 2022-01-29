@@ -1,7 +1,6 @@
 [
   {
-    "task name": "UDISK",
-    "from path": "F:\\备份\\BackupSystem\\Backup1\\UDISK",
-    "to path": ".\\data"
+    "task name": "Test",
+    "from path": "C:\\Users\\Lenor\\Desktop\\test"
   }
 ]
