@@ -12,7 +12,6 @@ if __name__ == '__main__':
     dir_file = open(dir_file_name, mode='r', encoding="utf-8")
     target = base64.b64decode(dir_file.readline().encode("utf-8")).decode("utf-8")
     target = json.loads(target)
-    print(target[5][1])
     files = dir_file.readlines()
     dir_file.close()
     for i in range(len(files)):

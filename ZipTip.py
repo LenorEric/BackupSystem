@@ -20,21 +20,25 @@ def getCRC(file_path):
 
 def backupFile(task_name, target, location=".\\data"):
     def backup(current_target):
-        for file in current_target:
-            if type(file) == list:
-                backup(file)
+        for i in range(len(current_target)):
+            if i == 0:
+                continue
+            if type(current_target[i]) == list:
+                backup(current_target[i])
             else:
+                zip_name = "ERROR"
                 try:
-                    if os.path.isfile(file):
-                        zip_name = backup_location + "\\" + task_name + "\\" + "data\\" + os.path.basename(
-                            file) + '_' + getCRCBuiltin(file) + '.7z'
-                        dir_file.write(base64.b64encode(str(zip_name).encode("utf-8")).decode("utf-8") + "\n")
-                        if os.path.exists(zip_name):
-                            continue
-                        cmd = '.\\p7z\\7za.exe a "' + zip_name + '" "' + file + '" -t7z -mx=7 -mmt=8'
-                        os.system(cmd)
+                    zip_name = backup_location + "\\" + task_name + "\\" + "data\\" + os.path.basename(
+                        current_target[i]) + '_' + getCRCBuiltin(current_target[i]) + '.7z'
+                    if os.path.exists(zip_name):
+                        continue
+                    cmd = '.\\p7z\\7za.exe a "' + zip_name + '" "' + current_target[i] + '" -t7z -mx=7 -mmt'
+                    if not os.path.exists(current_target[i]):
+                        continue
+                    os.system(cmd)
                 except Exception as error:
-                    print("Proceeding Target: ", file, " , Error: ", error)
+                    print("Proceeding Target: ", current_target[i], " , Error: ", error)
+                dir_file.write(base64.b64encode(str(zip_name).encode("utf-8")).decode("utf-8") + "\n")
 
     backup_location = location
     if not os.access(backup_location, os.F_OK):
@@ -56,7 +60,6 @@ def backupFile(task_name, target, location=".\\data"):
     backup(target)
     dir_file.close()
     dir_file = open(dir_file_name, mode='r', encoding="utf-8")
-    data_set = dir_file.read().encode("utf-8")
 
     dir_file.close()
 
@@ -67,21 +70,23 @@ file_name_counter = 0
 def restoreFile(target, location, file_names):
     def restore(current_target):
         global file_name_counter
-        for file in current_target:
-            if type(file) == list:
-                restore(file)
+        for i in range(len(current_target)):
+            if i == 0:
+                continue
+            if type(current_target[i]) == list:
+                restore(current_target[i])
             else:
                 try:
                     zip_name = file_names[file_name_counter]
                     file_name_counter += 1
-                    save_file = os.path.join(location, file[len(root):])
+                    save_file = os.path.join(location, current_target[i][len(root):])
                     if os.path.exists(save_file):
                         continue
-                    cmd = '.\\p7z\\7za.exe x "' + zip_name + '" -o "' + save_file
+                    cmd = '.\\p7z\\7za.exe x "' + zip_name + '" -o"' + os.path.split(save_file)[0]
                     os.system(cmd)
                 except Exception as error:
-                    print("Proceeding Target: ", file, " , Error: ", error)
+                    print("Proceeding Target: ", current_target[i], " , Error: ", error)
 
     file_name_counter = 0
-    root = target[0]
+    root = target[0] + os.sep
     restore(target)
