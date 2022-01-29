@@ -19,5 +19,4 @@ if __name__ == '__main__':
         files[i] = base64.b64decode(files[i].encode("utf-8")).decode("utf-8")
         file_file_name = os.path.split(files[i])[1]
         files[i] = os.path.join(folder_path, "data", file_file_name)
-
     ZiTi.restoreFile(target, dirname, files)
