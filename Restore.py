@@ -19,3 +19,5 @@ if __name__ == '__main__':
         file_file_name = os.path.split(files[i])[1]
         files[i] = os.path.join(folder_path, "data", file_file_name)
     ZiTi.restoreFile(target, dirname, files)
+    print("finished")
+    os.system("pause")

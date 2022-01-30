@@ -57,7 +57,7 @@ def backupFile(task_name, target, location=".\\data"):
     if os.access(dir_file_name, os.F_OK):
         print("Redundant backup warning")
         os.system("pause")
-        return
+        exit()
     dir_file = open(dir_file_name, mode='w', encoding="utf-8")
     target_for_write = json.dumps(target)
     dir_file.write(base64.b64encode(target_for_write.encode("utf-8")).decode("utf-8") + "\n")
@@ -84,12 +84,17 @@ def restoreFile(target, location, file_names):
                     zip_name = file_names[file_name_counter]
                     file_name_counter += 1
                     save_file = os.path.join(location, current_target[i][len(root):])
-                    if os.path.exists(save_file):
-                        continue
-                    cmd = '.\\p7z\\7za.exe x "' + zip_name + '" -o"' + os.path.split(save_file)[0]
-                    run(cmd, shell=True)
+                    if not os.path.exists(save_file):
+                        if os.path.exists(zip_name):
+                            cmd = '.\\p7z\\7za.exe x "' + zip_name + '" -o"' + os.path.split(save_file)[0]
+                            run(cmd, shell=True)
+                        else:
+                            print("FNE: ")
+                    else:
+                        print("AE: ")
                 except Exception as error:
                     print("Proceeding Target: ", current_target[i], " , Error: ", error)
+                print(current_target[i])
 
     file_name_counter = 0
     root = target[0] + os.sep
