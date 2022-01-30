@@ -3,6 +3,7 @@ import time
 import os
 import json
 from zlib import crc32
+from subprocess import run
 
 
 def getCRCBuiltin(file_path):
@@ -35,10 +36,11 @@ def backupFile(task_name, target, location=".\\data"):
                     cmd = '.\\p7z\\7za.exe a "' + zip_name + '" "' + current_target[i] + '" -t7z -mx=7 -mmt'
                     if not os.path.exists(current_target[i]):
                         continue
-                    os.system(cmd)
+                    run(cmd, shell=True)
                 except Exception as error:
                     print("Proceeding Target: ", current_target[i], " , Error: ", error)
                 dir_file.write(base64.b64encode(str(zip_name).encode("utf-8")).decode("utf-8") + "\n")
+                print(zip_name)
 
     backup_location = location
     if not os.access(backup_location, os.F_OK):
@@ -83,7 +85,7 @@ def restoreFile(target, location, file_names):
                     if os.path.exists(save_file):
                         continue
                     cmd = '.\\p7z\\7za.exe x "' + zip_name + '" -o"' + os.path.split(save_file)[0]
-                    os.system(cmd)
+                    run(cmd, shell=True)
                 except Exception as error:
                     print("Proceeding Target: ", current_target[i], " , Error: ", error)
 
