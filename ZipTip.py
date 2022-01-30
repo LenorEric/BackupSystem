@@ -31,12 +31,14 @@ def backupFile(task_name, target, location=".\\data"):
                 try:
                     zip_name = backup_location + "\\" + task_name + "\\" + "data\\" + os.path.basename(
                         current_target[i]) + '_' + getCRCBuiltin(current_target[i]) + '.7z'
-                    if os.path.exists(zip_name):
-                        continue
-                    cmd = '.\\p7z\\7za.exe a "' + zip_name + '" "' + current_target[i] + '" -t7z -mx=7 -mmt'
-                    if not os.path.exists(current_target[i]):
-                        continue
-                    run(cmd, shell=True)
+                    if not os.path.exists(zip_name):
+                        cmd = '.\\p7z\\7za.exe a "' + zip_name + '" "' + current_target[i] + '" -t7z -mx=7 -mmt'
+                        if os.path.exists(current_target[i]):
+                            run(cmd, shell=True)
+                        else:
+                            print("FNE: ", end='')
+                    else:
+                        print("AE: ", end='')
                 except Exception as error:
                     print("Proceeding Target: ", current_target[i], " , Error: ", error)
                 dir_file.write(base64.b64encode(str(zip_name).encode("utf-8")).decode("utf-8") + "\n")

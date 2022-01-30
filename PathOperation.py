@@ -2,14 +2,20 @@ import os
 
 
 def getPath(path):
-    file_path = [path]
-    try:
-        files = os.listdir(path)
-        for f in files:
-            if os.path.isdir(path + '\\' + f):
-                file_path.append(getPath(path + '\\' + f))
-            if os.path.isfile(path + '\\' + f):
-                file_path.append(path + '\\' + f)
-        return file_path
-    except Exception as error:
-        print("Proceeding Path: ", path, " , Error: ", error)
+    def sweep(path_):
+        file_path = [path_]
+        try:
+            files = os.listdir(path_)
+            for f in files:
+                if os.path.isdir(path_ + '\\' + f):
+                    file_path.append(sweep(path_ + '\\' + f))
+                if os.path.isfile(path_ + '\\' + f):
+                    file_path.append(path_ + '\\' + f)
+            return file_path
+        except Exception as error:
+            print("Proceeding Path: ", path_, " , Error: ", error)
+
+    print("get path")
+    path_tree = sweep(path)
+    print("get path success")
+    return path_tree
