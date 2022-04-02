@@ -5,8 +5,9 @@ import ZipTip as ZiTi
 import os
 
 if __name__ == '__main__':
+    tk_instance = tkinter.Tk()  # 创建一个Tkinter.Tk()实例
+    tk_instance.withdraw()  # 将Tkinter.Tk()实例隐藏
     dir_file_name = tkinter.filedialog.askopenfilename()
-    os.path.abspath(os.path.join(dir_file_name, ".."))
     folder_path = os.path.split(dir_file_name)[0]
     dirname = tkinter.filedialog.askdirectory()
     dir_file = open(dir_file_name, mode='r', encoding="utf-8")
