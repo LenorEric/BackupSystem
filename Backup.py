@@ -43,7 +43,7 @@ if __name__ == '__main__':
         tk_instance.withdraw()  # 将Tkinter.Tk()实例隐藏
         print("Input task name(default by :", default_name, "):", end="")
         task_name = input()
-        default_operator = ["", "_", "dft", "default", "d"]
+        default_operator = [""]
         if task_name in default_operator:
             task_name = default_name
         else:
